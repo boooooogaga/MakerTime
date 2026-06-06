@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     [SerializeField] private GameManager game;
+    [SerializeField] private CameraControl cameraControl;
     public int speed;
 
     public int damage;
@@ -26,6 +27,7 @@ public class CharacterControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         render = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        cameraControl = FindObjectOfType<CameraControl>();
     }
 
     // Update is called once per frame
@@ -97,6 +99,7 @@ public class CharacterControl : MonoBehaviour
         canMove = false;
         Vector2 knockbackDirection = new Vector2((transform.position.x - spike.transform.position.x), -(transform.position.y - spike.transform.position.y)).normalized;
         health -= spike.GetComponent<Trap>().damage;
+        cameraControl.Shake(2f, 2f, 0.5f);
         rb.AddForce(knockbackDirection * spike.GetComponent<Trap>().dashForce, ForceMode2D.Impulse);
         for (int i = 0; i < 3; i++)
         {
