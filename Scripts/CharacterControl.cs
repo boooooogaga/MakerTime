@@ -51,7 +51,6 @@ public class CharacterControl : MonoBehaviour
         
         if(rb.velocity.x > 0) isMirrored = false;
         else if(rb.velocity.x < 0) isMirrored = true;
-        if(rb.velocity.x == 0)  isMirrored = isMirrored;
         render.flipX = isMirrored;
     }
 
@@ -96,9 +95,9 @@ public class CharacterControl : MonoBehaviour
 
     private IEnumerator spikeDamage(GameObject spike)
     {
+        GetDamage(spike.GetComponent<Trap>().damage);
         canMove = false;
         Vector2 knockbackDirection = new Vector2((transform.position.x - spike.transform.position.x), -(transform.position.y - spike.transform.position.y)).normalized;
-        health -= spike.GetComponent<Trap>().damage;
         cameraControl.Shake(2f, 2f, 0.5f);
         rb.AddForce(knockbackDirection * spike.GetComponent<Trap>().dashForce, ForceMode2D.Impulse);
         for (int i = 0; i < 3; i++)
@@ -121,5 +120,15 @@ public class CharacterControl : MonoBehaviour
         anim.enabled = false;
         yield return new WaitForSeconds(1f);
         game.ShowDeathScreen();
+    }
+    public void GetDamage(int hurt)
+    {
+        if (canMove)
+        {
+            Debug.Log($"Damage Dealed" + hurt);
+            game.hpAnim.Play("HpUpdateAnim");
+            health -= hurt;
+
+        }
     }
 }
