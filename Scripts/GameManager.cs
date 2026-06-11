@@ -6,9 +6,10 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] public GameObject DeathScreen;
-    [SerializeField] public TMP_Text hpText;
+    [SerializeField] public TMP_Text hpText, coinText;
     [SerializeField] public CharacterControl player;
-    [SerializeField] public Animation hpAnim;
+    [SerializeField] public Animation hpAnim, coinAnim;
+    public int coins;
     void Start()
     {
         
@@ -27,5 +28,11 @@ public class GameManager : MonoBehaviour
     public void ShowDeathScreen()
     {
         DeathScreen.SetActive(true);
+    }
+    public void AddCoin()
+    {
+        coins++;
+        coinText.text = coins.ToString();
+        coinAnim.Play("CoinClaim");
     }
 }

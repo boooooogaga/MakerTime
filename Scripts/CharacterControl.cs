@@ -7,9 +7,7 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private GameManager game;
     [SerializeField] private CameraControl cameraControl;
     public int speed;
-
     public int damage;
-
     public int health;
     public int jumpForce;
     public Rigidbody2D rb;
@@ -83,6 +81,11 @@ public class CharacterControl : MonoBehaviour
         {
             StartCoroutine(spikeDamage(other.gameObject));
         }
+        if(other.gameObject.CompareTag("Coin"))
+        {
+            game.AddCoin();
+            Destroy(other.gameObject);
+        }
         
     }
     void OnCollisionExit2D(Collision2D other)
@@ -116,7 +119,7 @@ public class CharacterControl : MonoBehaviour
         anim.SetTrigger("Dead");
         canMove = false;
 
-        yield return new WaitForSeconds(anim.GetCurrentAnimatorClipInfo(0)[0].clip.length * 2);
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorClipInfo(0)[0].clip.length);
         anim.enabled = false;
         yield return new WaitForSeconds(1f);
         game.ShowDeathScreen();
